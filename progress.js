@@ -29,10 +29,10 @@ window.addEventListener('DOMContentLoaded', function () {
                     charPath.setAttribute('d', 'M270,543.5H750c0-83-77-230-240-230s-240,140-240,230c0,138,82,246,241,246s215-132,215-132');
                     break;
                 case 's':
-                    charPath.setAttribute('d', ' M660,439c0-52-48-125-161-125S343.5,385.5,338.5,438.5c-5,52.77,28.42,102.43,161,113,138,11,185,53,173,119-17,93.47-84,119-167,119s-179-36-179-128');
+                    charPath.setAttribute('d', 'M660,439c0-52-48-125-161-125S343.5,385.5,338.5,438.5c-5,52.77,28.42,102.43,161,113,138,11,185,53,173,119-17,93.47-84,119-167,119s-179-36-179-128');
                     break;
                 case 'g':
-                    charPath.setAttribute('d', '      M739,550.5c0-115.5-87-237-239-237s-240,121-240,237S334.5,791,499.5,791s240-137,240-240V773.37c0,68.13-53,218.13-240,218.13s-216-134-216-134');
+                    charPath.setAttribute('d', 'M739,550.5c0-115.5-87-237-239-237s-240,121-240,237S334.5,791,499.5,791s240-137,240-240V773.37c0,68.13-53,218.13-240,218.13s-216-134-216-134');
                     break;
                 default:
                     break;
@@ -70,10 +70,9 @@ window.addEventListener('DOMContentLoaded', function () {
         for (var j = 0; j < paths.length; j++) {
             // 進捗率に合わせて0に近づける
             paths[j].style.strokeDashoffset = Math.floor((100 - progressRate) / 100 * lengs[j]);
-            console.log(paths[0].style.strokeDashoffset)
         }
 
-        $("h3").text(progressRate + "%")
+        document.getElementById('progress').innerText = (progressRate + "%")
     };
 });
 
