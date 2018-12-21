@@ -71,7 +71,6 @@ window.addEventListener('DOMContentLoaded', function () {
             // 進捗率に合わせて0に近づける
             paths[j].style.strokeDashoffset = Math.floor((100 - progressRate) / 100 * lengs[j]);
         }
-
         document.getElementById('progress').innerText = (progressRate + "%")
     };
 });
