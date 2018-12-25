@@ -2,15 +2,20 @@
 window.addEventListener('DOMContentLoaded', function () {
     const paths = new Array();
     const lengs = new Array();
+    
+    let progressRate = 0; //0~100
 
+    //DIV内のテキストを取得
     const tex = document.getElementById('progressText').innerText;
     console.log(tex);
+
     loadCharacter(tex); //<svg><path>...</svg> の形になる
 
     function loadCharacter(str) {
+        //テキストを分解
         const array = str.split("");
-        console.log(array.toString()); 
-        console.log(array.length); 
+        console.log(array.toString());
+        console.log(array.length);
 
         for (const value of array) {
             const mySvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");	// <svg></svg>
@@ -25,6 +30,13 @@ window.addEventListener('DOMContentLoaded', function () {
                 case 'a':
                     charPath.setAttribute('d', 'M749,550.5c0-115.5-87-237-239-237s-240,121-240,237S344.5,791,509.5,791s240-137,240-240V785');
                     break;
+                case 'A':
+                    charPath.setAttribute('d', 'M256.25,799.5v-394c0-32,27-230,253-230s254,186,254,213v411m-506.5-240h507');
+                    break;
+                case 'B':
+                    charPath.setAttribute('d', 'M264,786.5v-596s233,.5,293.5.5S707,216.5,707,331.5s-87.5,150-166.5,150c-40.35,0-204.61-.83-270,0v1H541c131,0,195,55,195,155,0,115-73,149-175,149H264.5');
+                    break;
+                
                 case 'e':
                     charPath.setAttribute('d', 'M270,543.5H750c0-83-77-230-240-230s-240,140-240,230c0,138,82,246,241,246s215-132,215-132');
                     break;
@@ -46,31 +58,34 @@ window.addEventListener('DOMContentLoaded', function () {
             paths.push(charPath);
             lengs.push(charPath.getTotalLength());
         }
-
+         //関数loadCharacterの処理が終わったらアニメーションスタートさせる
+         animStart();
     }
 
-    let speed = 0;
-    const acceleration = 0.01;
-    let progressRate = 0; //0~100
-    let count = setInterval(function () {
-        speed += acceleration;
-        progressRate += speed;
-        if (progressRate >= 100) {
-            clearInterval(count);
-            progressRate = 100;
-        }
-        update();
-    }, 10);
+    function animStart(){
+        let speed = 0;
+        const acceleration = 0.01;
+        let count = setInterval( () => {
+            speed += acceleration;
+            progressRate += speed;
+            if (progressRate >= 100) {
+                clearInterval(count);
+                progressRate = 100;
+            }
+            update();
+        }, 10);
+     }
 
     const totalLeng = lengs.reduce((a, x) => a += x, 0);
     console.log(totalLeng);
 
     function update() {
 
-        for (var j = 0; j < paths.length; j++) {
+        paths.forEach((path, index) => {
             // 進捗率に合わせて0に近づける
-            paths[j].style.strokeDashoffset = Math.floor((100 - progressRate) / 100 * lengs[j]);
-        }
+            path.style.strokeDashoffset = Math.floor((100 - progressRate) / 100 * lengs[index]);
+          })
+
         document.getElementById('progress').innerText = (progressRate + "%")
     };
 });
