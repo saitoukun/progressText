@@ -2,16 +2,19 @@
 window.addEventListener('DOMContentLoaded', function () {
     const paths = new Array();
     const lengs = new Array();
-    
+
     let progressRate = 0; //0~100
+
+    let mainDiv = document.getElementById("main")
 
     //DIV内のテキストを取得
     const tex = document.getElementById('progressText').innerText;
     console.log(tex);
 
-    loadCharacter(tex); //<svg><path>...</svg> の形になる
+    // loadOwnPath(tex); //<svg><path>...</svg> の形になる
+    loadCharacter(tex);
 
-    function loadCharacter(str) {
+    function loadOwnPath(str) {
         //テキストを分解
         const array = str.split("");
         console.log(array.toString());
@@ -36,7 +39,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 case 'B':
                     charPath.setAttribute('d', 'M264,786.5v-596s233,.5,293.5.5S707,216.5,707,331.5s-87.5,150-166.5,150c-40.35,0-204.61-.83-270,0v1H541c131,0,195,55,195,155,0,115-73,149-175,149H264.5');
                     break;
-                
+
                 case 'e':
                     charPath.setAttribute('d', 'M270,543.5H750c0-83-77-230-240-230s-240,140-240,230c0,138,82,246,241,246s215-132,215-132');
                     break;
@@ -57,15 +60,67 @@ window.addEventListener('DOMContentLoaded', function () {
             charPath.style.strokeDashoffset = charPath.getTotalLength();
             paths.push(charPath);
             lengs.push(charPath.getTotalLength());
+            console.log(charPath)
         }
-         //関数loadCharacterの処理が終わったらアニメーションスタートさせる
-         animStart();
+        //関数loadCharacterの処理が終わったらアニメーションスタートさせる
+        animStart();
     }
 
-    function animStart(){
+    function loadCharacter(str) {
+        //テキストを分解
+        const array = str.split("");
+        for (const value of array) {
+            let myXml = new XMLHttpRequest(); //文字の数だけXMLHttpRequestのインスタンスを作成
+
+            //valueが大文字の時
+            if (value.match(/^[A-Z]+$/)) {
+                console.log("大文字");
+                myXml.open("GET", `./SVG/UpperCase/${value}${value}.svg`, true);
+                myXml.send(null);
+            }
+
+            //valueが小文字の時
+            else if (value.match(/^[a-z]+$/)) {
+                console.log("小文字");
+                myXml.open("GET", `./SVG/LowerCase/${value}.svg`, true);
+                myXml.send(null);
+            }
+
+            //valueがスペースの時
+            else if(value.match(/( |　)+/)){
+                console.log("space")
+                myXml.open("GET", `./SVG/Symbol/space.svg`, true);
+                myXml.send(null);
+            }
+
+            //XMLHttpRequest 受信が成功
+            myXml.onload = function () {
+                const domParser = new DOMParser();
+                const svgText = myXml.responseText;
+                const parsedSVGDoc = domParser.parseFromString(svgText, 'image/svg+xml');
+                const parsedSVG = parsedSVGDoc.childNodes[0];
+                parsedSVG.setAttribute("width", "50"); //文字の幅
+                mainDiv.appendChild(parsedSVG);
+
+                //ストロークアニメーションのための設定
+                const charPath = parsedSVG.querySelectorAll('path')[0];
+                charPath.style.strokeDasharray = charPath.getTotalLength();
+                charPath.style.strokeDashoffset = charPath.getTotalLength();
+                charPath.style.strokeWidth = "5px"; //戦の太さ
+
+
+                paths.push(charPath);
+                lengs.push(charPath.getTotalLength());
+            }
+        }
+        //関数loadCharacterの処理が終わったらアニメーションスタートさせる
+        animStart();
+    }
+
+    function animStart() {
         let speed = 0;
         const acceleration = 0.01;
-        let count = setInterval( () => {
+        let count = setInterval(() => {
             speed += acceleration;
             progressRate += speed;
             if (progressRate >= 100) {
@@ -74,7 +129,7 @@ window.addEventListener('DOMContentLoaded', function () {
             }
             update();
         }, 10);
-     }
+    }
 
     const totalLeng = lengs.reduce((a, x) => a += x, 0);
     console.log(totalLeng);
@@ -84,36 +139,8 @@ window.addEventListener('DOMContentLoaded', function () {
         paths.forEach((path, index) => {
             // 進捗率に合わせて0に近づける
             path.style.strokeDashoffset = Math.floor((100 - progressRate) / 100 * lengs[index]);
-          })
+        })
 
         document.getElementById('progress').innerText = (progressRate + "%")
     };
 });
-
-/*
-var svgss = document.createElement("object");
-svgss.type = "image/svg+xml";
-svgss.data = "SVG/M.svg";
-svgss.width = 256;
-svgss.height = 256;
-myDiv = document.getElementById("createElement");
-myDiv.appendChild(svgss);
-console.log(svgss);
-*/
-
-/*
-function getSvgPath(svgs) { //<svg>を引数に指定
-
-    // [].slice.call()によって、querySelectorAllで取得したNodeListでforEachを使う
-    [].slice.call(svgs.querySelectorAll('path')).forEach(function (path, i) {
-        console.log(path)
-        paths.push(path);
-        lengs.push(paths[i].getTotalLength());
-    });
-
-    paths.forEach(function (value, i) {
-        paths[i].style.strokeDasharray = lengs[i];
-        paths[i].style.strokeDashoffset = lengs[i];
-    })
-}
-*/
