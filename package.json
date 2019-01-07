@@ -1,0 +1,24 @@
+{
+  "name": "progressTextSvg",
+  "version": "1.0.0",
+  "description": "",
+  "main": "progress.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saitoukun/progressText.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saitoukun/progressText/issues"
+  },
+  "homepage": "https://github.com/saitoukun/progressText#readme",
+  "devDependencies": {
+    "webpack": "^4.28.3",
+    "webpack-cli": "^3.2.0"
+  }
+}
