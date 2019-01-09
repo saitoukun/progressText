@@ -1,4 +1,5 @@
-export default function loadOwnPath(str) {
+import progress from './progress';
+export default function loadPath(str) {
     const paths = new Array();
     const lengs = new Array();
     //テキストを分解
@@ -39,7 +40,7 @@ export default function loadOwnPath(str) {
                 break;
         }
         mySvg.appendChild(charPath);
-        document.getElementById("element").appendChild(mySvg);
+        document.getElementById("main").appendChild(mySvg);
 
         //ストロークアニメーションのための設定
         charPath.style.strokeDasharray = charPath.getTotalLength();
@@ -49,5 +50,5 @@ export default function loadOwnPath(str) {
         console.log(charPath)
     }
     //関数loadCharacterの処理が終わったらアニメーションスタートさせる
-    animStart();
+    progress(paths, lengs);
 }
