@@ -1,4 +1,4 @@
-export default function progress(paths, lengs) {
+export default function progress(paths) {
 
     let progressRate = 0; //0~100
 
@@ -18,7 +18,7 @@ export default function progress(paths, lengs) {
     }
 
     function update() {
-        
+
         paths.forEach((path, index) => {
             let eachProgress = calculateEachProgress(paths.length, index);
             // 進捗率に合わせて0に近づける
@@ -31,10 +31,10 @@ export default function progress(paths, lengs) {
     };
 
     //eachProgress(1~0の値を返す) 
-    function calculateEachProgress(len, index){
+    function calculateEachProgress(len, index) {
         //0~100
         let eachProg = progressRate * len / (index + 1);
-        if(eachProg > 100) {eachProg = 100};
+        if (eachProg > 100) { eachProg = 100 };
         //1~0
         return (100 - eachProg) / 100;
     }
