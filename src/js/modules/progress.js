@@ -6,7 +6,7 @@ export default function progress(paths) {
     function animStart() {
         let speed = 0.3;
         const acceleration = 0;
-        let count = setInterval(() => {
+        const count = setInterval(() => {
             speed += acceleration;
             progressRate += speed;
             if (progressRate >= 100) {
@@ -20,7 +20,7 @@ export default function progress(paths) {
     function update() {
 
         paths.forEach((path, index) => {
-            let eachProgress = calculateEachProgress(paths.length, index);
+            const eachProgress = calculateEachProgress(paths.length, index);
             // 進捗率に合わせて0に近づける
             path.style.strokeDashoffset = eachProgress * path.getTotalLength();
 
