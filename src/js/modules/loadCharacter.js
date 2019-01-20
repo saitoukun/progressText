@@ -1,62 +1,62 @@
-import progress from './progress';
-export default function loadCharacter(str) {
+import drawSvg from "./drawSvg";
+import getPaths from './getPaths'
+
+export default function loadCharacter(str, size) {
     const paths = [];
     let parsedSVGs = [];
     const setStrokeWidth = "10px";
-    const charactorSize = "32";
+    const charactorSize = size ? size : "32px";
 
     //文字列を配列にする
     const array = [...str];
-    array.forEach(async (char, index) => {
-        let response;
-        let text;
-        try {
-            //charが大文字の時
-            if (char.match(/^[A-Z]+$/)) {
-                response = await fetch(`./SVG/UpperCase/${char}${char}.svg`)
+    (async () => {
+        await Promise.all(array.map(async (char, index) => {
+            let response;
+            try {
+                //charが大文字の時
+                if (char.match(/^[A-Z]+$/)) {
+                    response = await fetch(`./SVG/UpperCase/${char}${char}.svg`)
+                }
+                //charが小文字の時
+                else if (char.match(/^[a-z]+$/)) {
+                    response = await fetch(`./SVG/LowerCase/${char}.svg`)
+                }
+                //charが数字の時
+                else if (char.match(/^[0-9]+$/)) {
+                    response = await fetch(`./SVG/Number/${char}.svg`)
+                }
+                //charがスペースの時
+                else if (char.match(/( |　)+/)) {
+                    console.log("space")
+                    response = await fetch(`./SVG/Symbol/space.svg`)
+                }
+                const text = await response.text();
+                await createSvg(text, index);
+
+            } catch (e) {
+                console.log("error!")
             }
+        }));
+        //読み込みが終わったら
+        createDom();
+    })();
 
-            //charが小文字の時
-            else if (char.match(/^[a-z]+$/)) {
-                response = await fetch(`./SVG/LowerCase/${char}.svg`)
-            }
 
-            //charが数字の時
-            else if (char.match(/^[0-9]+$/)) {
-                response = await fetch(`./SVG/Number/${char}.svg`)
-            }
-
-            //charがスペースの時
-            else if (char.match(/( |　)+/)) {
-                console.log("space")
-                response = await fetch(`./SVG/Symbol/space.svg`)
-            }
-            text = await response.text();
-            createSvg(text, index);
-
-        } catch (e) {
-            console.log("error!")
-        }
-        //繰り返しのラストで行う処理
-        if (index == array.length - 1) {
-            createDom();
-        }
-    });
-
-    
-    const createSvg = (svgText, index) => {
+    const createSvg = (text, index) => {
         console.log(index);
         const domParser = new DOMParser();
-        const parsedSVGDoc = domParser.parseFromString(svgText, 'image/svg+xml');
+        const parsedSVGDoc = domParser.parseFromString(text, 'image/svg+xml');
         const parsedSVG = parsedSVGDoc.childNodes[0];
         parsedSVG.setAttribute("width", charactorSize); //文字の幅
         parsedSVGs.splice(index, 0, parsedSVG);
 
         //ストロークアニメーションのための設定
-        const charPath = parsedSVG.querySelectorAll('path')[0];
-        charPath.style.strokeDasharray = charPath.getTotalLength();
-        charPath.style.strokeDashoffset = charPath.getTotalLength();
-        charPath.style.strokeWidth = setStrokeWidth; //戦の太さ
+        const emptyPath = document.createElementNS("http://www.w3.org/2000/svg", "path"); //<path>
+        const charPath = parsedSVG.querySelectorAll('path')[0] ? parsedSVG.querySelectorAll('path')[0] : emptyPath;
+        const pathLength = charPath.getTotalLength()
+        charPath.style.strokeDasharray = pathLength;
+        charPath.style.strokeDashoffset = pathLength;
+        charPath.style.strokeWidth = setStrokeWidth; //線の太さ 
         paths.splice(index, 0, charPath);
     }
 
@@ -70,7 +70,7 @@ export default function loadCharacter(str) {
         })
         document.getElementById("main").appendChild(fragment);
         //処理が終わったらアニメーションスタートさせる
-        progress(paths);
+        drawSvg(paths);
     }
 
 }
