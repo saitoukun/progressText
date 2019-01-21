@@ -1,18 +1,15 @@
-import progress from './progress';
-export default function loadPath(str) {
-    const paths = new Array();
-    const lengs = new Array();
-    //テキストを分解
+export default function loadPath(str, size) {
+    const pathsArray = [];
+    const svgArray = [];
+    const setStrokeWidth = "10px";
+    const charactorSize = size ? size : "32px";
     const array = str.split("");
-    console.log(array.toString());
-    console.log(array.length);
 
     for (const char of array) {
         const mySvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");	// <svg></svg>
         mySvg.setAttribute("viewBox", "0 0 1000 1000");
         mySvg.setAttribute("width", "100");
         const charPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
-
         switch (char) {
             case 'M':
                 charPath.setAttribute('d', 'M132,800V363c0-99.5,74.5-183.5,190.5-183.5s188,107,188,179S510,800,510,800s.5-396.5.5-441.5,39-179,178-179,199,87,199,185v435');
@@ -37,18 +34,33 @@ export default function loadPath(str) {
                 charPath.setAttribute('d', 'M739,550.5c0-115.5-87-237-239-237s-240,121-240,237S334.5,791,499.5,791s240-137,240-240V773.37c0,68.13-53,218.13-240,218.13s-216-134-216-134');
                 break;
             default:
+                charPath.setAttribute('d', "M343.5,612.5c2-32,20-89,64-94s71,17,91,40,54,51,91,45c47.55-7.71,68-51,68-95")
                 break;
         }
-        mySvg.appendChild(charPath);
-        document.getElementById("main").appendChild(mySvg);
-
         //ストロークアニメーションのための設定
-        charPath.style.strokeDasharray = charPath.getTotalLength();
-        charPath.style.strokeDashoffset = charPath.getTotalLength();
-        paths.push(charPath);
-        lengs.push(charPath.getTotalLength());
+        const pathLength = charPath.getTotalLength()
+        charPath.style.strokeDasharray = pathLength;
+        charPath.style.strokeDashoffset = pathLength;
+        charPath.style.strokeWidth = setStrokeWidth; //線の太さ 
+        pathsArray.push(charPath);
         console.log(charPath)
+
+        mySvg.appendChild(charPath);
+        console.log(mySvg);
+        mySvg.setAttribute("width", charactorSize); //文字の幅
+        svgArray.push(mySvg);
+
     }
-    //関数loadCharacterの処理が終わったらアニメーションスタートさせる
-    progress(paths, lengs);
+    createDom(svgArray)
+    return pathsArray
+}
+
+// fragmentに全てのsvgを格納してからDOMを操作
+const createDom = (svgArray) => {
+    console.log('createDom')
+    let fragment = document.createDocumentFragment();
+    svgArray.forEach((svg) => {
+        fragment.appendChild(svg);
+    })
+    document.getElementById("main").appendChild(fragment);
 }

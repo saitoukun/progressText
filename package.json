@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/saitoukun/progressText#readme",
   "devDependencies": {
-    "webpack": "^4.28.3",
-    "webpack-cli": "^3.2.0"
+    "webpack": "^4.29.0",
+    "webpack-cli": "^3.2.1"
   }
 }
