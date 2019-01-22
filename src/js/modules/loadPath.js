@@ -1,11 +1,11 @@
-import characterSvg from "./characterSvg"
+import defineCharSvgArray from "./defineCharSvgArray"
 export default function loadPath(str, size) {
     const pathsArray = [];
     const svgArray = [];
     const setStrokeWidth = "10px";
     const charactorSize = size ? size : "32px";
     const array = str.split("");
-    const charSvg = characterSvg()
+    const charSvg = defineCharSvgArray()
 
     for (const char of array) {
         const mySvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");	// <svg></svg>

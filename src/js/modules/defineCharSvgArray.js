@@ -1,6 +1,6 @@
-export default function characrerSvg() {
+export default function defineCharSvgArray() {
 
-    const charSvgObj = {
+    const charSvgArray = {
         //0~9
         "0":[
             "M495.5,170.5c-134,0-199,110-199,181v218c0,105,44,226,199,226,165,0,209-107,209-223v-217c0-108-89-185-209-185"
@@ -192,5 +192,5 @@ export default function characrerSvg() {
         ],
 
     }
-    return charSvgObj
+    return charSvgArray
 }
