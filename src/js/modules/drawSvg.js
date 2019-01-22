@@ -2,6 +2,15 @@ export default function drawSvg(paths) {
 
     let progressRate = 0; //0~100
 
+    //drawに必要なもの
+    const pathLengths = [];
+    for (const path of paths) {
+        pathLengths.push(path.getTotalLength());
+    }
+    const totalLength = pathLengths.reduce((prev, current) => { return prev + current; });
+    let filledPathLength = paths[0].getTotalLength(); //pathの長さを入れておく変数
+    let nowIndex = 0; //アニメーションしているpathのindexs
+
     const startProgress = () => {
         let speed = 0.3;
         const acceleration = 0;
@@ -42,15 +51,6 @@ export default function drawSvg(paths) {
         }
     }
 
-
-    //drawに必要なもの
-    const pathLengths = [];
-    for (const path of paths) {
-        pathLengths.push(path.getTotalLength());
-    }
-    const totalLength = pathLengths.reduce( (prev, current) => { return prev + current; });
-    let filledPathLength = paths[0].getTotalLength(); //pathの長さを入れておく変数
-    let nowIndex = 0; //アニメーションしているpathのindex
     const draw = (paths, progressRate, animId) => {
         const advancedNumbers = totalLength / 100 * progressRate; //今までの進んだ量
         let nowFill = filledPathLength - advancedNumbers;
