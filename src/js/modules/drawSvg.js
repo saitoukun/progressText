@@ -1,14 +1,15 @@
-export default function drawSvg(paths) {
+export default function drawSvg(pathsArray, preProgressRate, progressRate) {
 
-    let progressRate = 0; //0~100
+    let progress = preProgressRate;
+    let arriveProgressRate = progressRate * 100;
 
     //drawに必要なもの
     const pathLengths = [];
-    for (const path of paths) {
+    for (const path of pathsArray) {
         pathLengths.push(path.getTotalLength());
     }
     const totalLength = pathLengths.reduce((prev, current) => { return prev + current; });
-    let filledPathLength = paths[0].getTotalLength(); //pathの長さを入れておく変数
+    let filledPathLength = pathsArray[0].getTotalLength(); //pathの長さを入れておく変数
     let nowIndex = 0; //アニメーションしているpathのindexs
 
     const startProgress = () => {
@@ -16,23 +17,22 @@ export default function drawSvg(paths) {
         const acceleration = 0;
         const count = setInterval(() => {
             speed += acceleration;
-            progressRate += speed;
-            if (progressRate >= 100) {
+            progress += speed;
+            if (progress >= arriveProgressRate) {
                 clearInterval(count);
-                progressRate = 100;
+                progress = arriveProgressRate;
             }
             //update()
-            draw(paths, progressRate, nowIndex);
-            document.getElementById('progress').innerText = (progressRate + "%")
+            draw(pathsArray, progress, nowIndex); //progressが変わるたびに呼ばれる
+            document.getElementById('progress').innerText = (progress + "%")
         }, 10);
     }
     startProgress();
 
     const update = () => {
-        draw(paths, progressRate, nowIndex);
         /*
-        paths.forEach((path, index) => {
-            const eachProgress = calculateEachProgress(paths.length, index);
+        pathsArray.forEach((path, index) => {
+            const eachProgress = calculateEachProgress(pathsArray.length, index);
             // 進捗率に合わせて0に近づける
             path.style.strokeDashoffset = eachProgress * path.getTotalLength();
 
@@ -44,28 +44,28 @@ export default function drawSvg(paths) {
         //eachProgress(1~0の値を返す) 
         function calculateEachProgress(len, index) {
             //0~100
-            let eachProg = progressRate * len / (index + 1);
+            let eachProg = progress * len / (index + 1);
             if (eachProg > 100) { eachProg = 100 };
             //1~0
             return (100 - eachProg) / 100;
         }
     }
 
-    const draw = (paths, progressRate, animId) => {
-        const advancedNumbers = totalLength / 100 * progressRate; //今までの進んだ量
+    const draw = (pathsArray, progress, animId) => {
+        const advancedNumbers = totalLength / 100 * progress; //今までの進んだ量
         let nowFill = filledPathLength - advancedNumbers;
 
         if (filledPathLength < advancedNumbers) { //文字のlengthを描画したらnowFillが0になる 次の文字へ
-            if (paths.length > nowIndex) {
+            if (pathsArray.length > nowIndex) {
                 nowIndex++;
             }
-            filledPathLength += paths[nowIndex].getTotalLength();
+            filledPathLength += pathsArray[nowIndex].getTotalLength();
             nowFill = 0;
             console.log('next')
             console.log(nowIndex)
         }
 
-        paths[animId].style.strokeDashoffset = nowFill; //0で完全に表示
+        pathsArray[animId].style.strokeDashoffset = nowFill; //0で完全に表示
     }
 
 }

@@ -1,4 +1,3 @@
-import loadLocalCharacter from './loadLocalCharacter'
 import drawSvg from "./drawSvg";
 import loadPath from "./loadPath";
 
@@ -9,11 +8,11 @@ export default class ProgressText {
         this.strokeWidth = strokeWidth;
         this.color = color;
         this.pathsArray = loadPath(this.text, this.fontSize);
+        this.preProgressRate = 0;
       }
       
-      animate () {
-        console.log(this.pathsArray);
-        return drawSvg(this.pathsArray)
-         //return loadLocalCharacter
+      animate (progressRate) {
+        drawSvg(this.pathsArray, this.preProgressRate, progressRate)
+        this.preProgressRate = progressRate;
       }
 }

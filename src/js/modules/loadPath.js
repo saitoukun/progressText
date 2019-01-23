@@ -1,4 +1,4 @@
-import defineCharSvgArray from "./defineCharSvgArray"
+import defineCharSvgArray from "./defineCharSvgArray";
 export default function loadPath(str, size) {
     const pathsArray = [];
     const svgArray = [];
