@@ -3,7 +3,7 @@ export default function loadPath(text, size) {
     const pathsArray = [];
     const svgArray = [];
     const strokeWidth = "10px";
-    const charactorSize = size ? size : "32px";
+    const charactorSize = size || "32px";
     const array = text.split("");
     const charSvg = defineCharSvgArray();
 
