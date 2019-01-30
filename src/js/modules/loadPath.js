@@ -36,8 +36,7 @@ export default function loadPath(text, size) {
 
 // fragmentに全てのsvgを格納してからDOMを操作
 const createDom = (svgArray) => {
-    console.log("createDom");
-    let fragment = document.createDocumentFragment();
+    const fragment = document.createDocumentFragment();
     svgArray.forEach((svg) => {
         fragment.appendChild(svg);
     })

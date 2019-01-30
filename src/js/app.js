@@ -6,5 +6,5 @@ window.addEventListener('DOMContentLoaded', function () {
 
 
     const progressText = new ProgressText(id, 50, 'easeOutQuad' );
-    progressText.animate(1.0); //0~1
+    progressText.animate(0); //0~1
 })
