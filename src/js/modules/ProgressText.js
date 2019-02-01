@@ -7,44 +7,33 @@ export default class ProgressText {
     this.element = document.getElementById(id);
     this.text = this.element.innerText;
     this.style = window.getComputedStyle(this.element);
-    this.fontSize = fontSize || this.style.fontSize;
-    this.strokeWidth = null;
+    this.strokeWidth = '10px';
+    this.charactorSize = fontSize || "32px";
     this.color = null;
     this.easingName = easingName;
-    this.pathsArray = loadPath(this.text, this.fontSize);
-    this.preProgressRate = 1;
-  
+    this.pathsArray = loadPath(this.text, this.charactorSize, this.strokeWidth);
+    this.preProgressRate = 0;
+
   }
 
   animate(rate) {
     const post = rate;
     const pre = this.preProgressRate;
-    let now = this.preProgressRate;
+    let now = post > pre ? pre : post; //小さい方
+    const end = post > pre ? post : pre; //大きい方
+    const isPlus = post > pre ? true : false;
     const speed = 0.003;
-    console.log(speed);
+
     const anim = () => {
-      if(pre <= post){
-        now += speed;
-        if (now <= post) {
-          requestAnimationFrame(anim);
-        } else if (now >= post) { //アニメーション終わり
-          this.preProgressRate = post;
-          now = post;
-          console.log(this.preProgressRate)
-        }
-      } else if(pre > post){
-        now -= speed;
-        if (now >= post) {
-          requestAnimationFrame(anim);
-        } else if (now <= post) { //アニメーション終わり
-          this.preProgressRate = post;
-          now = post;
-          console.log(this.preProgressRate)
-        }
+      now += speed;
+      if (now <= end) {
+        requestAnimationFrame(anim);
+      } else if (now >= end) { //アニメーション終わり
+        this.preProgressRate = post;
+        now = end;
       }
-    
       let easingProgressRate = getEasingValue(this.easingName, now);
-      drawSvg(this.pathsArray, easingProgressRate,this.preProgressRate);
+      drawSvg(this.pathsArray, easingProgressRate, pre, post, isPlus);
       document.getElementById('progress').innerText = (easingProgressRate * 100 + "%");
     };
     requestAnimationFrame(anim);
