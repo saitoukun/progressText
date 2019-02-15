@@ -5,18 +5,30 @@
   <meta charset="UTF-8">
   <title>progressTextSvg</title>
   <link rel="stylesheet" type="text/css" href="style.css">
-  <script src="js/bundle.js"></script>
+
 </head>
 
 <body>
 
-  <div id="progressText">
-     Hello Progress
-  <div id="main">
+  <div class="container">
+
+    <div id="progressText">
+      now loading
+    </div>
+
+    <div id="progress"></div>
+    <input type="color" id="colorWell" value="#e66465">
+ 
+    <form>
+      <label for="textForm">入力: </label>
+      <input type="text" id="textForm">
+      <button id="button">PLAY</button>
+    </form>
+
+
   </div>
 
-  <div id="progress">
-  </div>
 </body>
+<script src="./js/bundle.js"></script>
 
 </html>

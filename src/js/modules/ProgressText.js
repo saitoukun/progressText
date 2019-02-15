@@ -3,24 +3,22 @@ import loadPath from "./loadPath";
 import getEasingValue from './getEasingValue';
 
 export default class ProgressText {
-  constructor(id, fontSize, easingName) {
+  constructor(id, obj) {
     this.element = document.getElementById(id);
-    this.text = this.element.innerText;
-    this.style = window.getComputedStyle(this.element);
-    this.strokeWidth = '10px';
-    this.charactorSize = fontSize || "32px";
-    this.color = null;
-    this.easingName = easingName;
-    this.pathsArray = loadPath(this.text, this.charactorSize, this.strokeWidth);
     this.preProgressRate = 0;
-
+    this.text = obj.text;
+    this.strokeWidth = obj.strokeWidth || '10px';
+    this.svgWidth = obj.svgWidth || "32px";
+    this.color = obj.color || "#4D4D4D";
+    this.easingName = obj.easingName || "linear";
+    this.pathsArray = loadPath(this.element, this.text, this.svgWidth, this.strokeWidth, this.color);
   }
 
   animate(rate) {
     const post = rate;
     const pre = this.preProgressRate;
-    let now = post > pre ? pre : post; //小さい方
-    const end = post > pre ? post : pre; //大きい方
+    let now = post > pre ? pre : post;
+    const end = post > pre ? post : pre;
     const isPlus = post > pre ? true : false;
     const speed = 0.003;
 
@@ -28,7 +26,7 @@ export default class ProgressText {
       now += speed;
       if (now <= end) {
         requestAnimationFrame(anim);
-      } else if (now >= end) { //アニメーション終わり
+      } else if (now >= end) {
         this.preProgressRate = post;
         now = end;
       }
@@ -38,4 +36,20 @@ export default class ProgressText {
     };
     requestAnimationFrame(anim);
   }
+
+  progress(rate){
+    const easingProgressRate = getEasingValue(this.easingName, rate);
+    drawSvg(this.pathsArray, easingProgressRate, 0, 1, true);
+  }
+
+  changeParameter(obj){
+    this.text = obj.text || this.text;
+    this.strokeWidth = obj.strokeWidth || this.strokeWidth;
+    this.svgWidth = obj.svgWidth || this.svgWidth;
+    this.color = obj.color || this.color;
+    this.easingName = obj.easingName || this.easingName;
+    this.pathsArray = loadPath(this.element, this.text, this.svgWidth, this.strokeWidth, this.color);
+  }
+  
+
 }

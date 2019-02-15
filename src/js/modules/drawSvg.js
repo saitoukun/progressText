@@ -17,24 +17,21 @@ export default function drawSvg(pathsArray, progress, preProgressRate, postProgr
         pathsArray[nowIndex].style.strokeDashoffset = fill; //0で完全に表示
     }
 
-    if (isPlus) {
-        pathsArray.forEach((path,index) => {
+    pathsArray.forEach((path, index) => {
+        if (isPlus) {
             if (nowIndex < index) {
                 path.style.strokeDashoffset = path.getTotalLength();
-            }else if(nowIndex > index){
+            } else if (nowIndex > index) {
                 path.style.strokeDashoffset = 0;
             }
-
-        })
-    } else {
-        pathsArray.forEach((path,index) => {
+        } else {
             if (nowIndex > index) {
                 path.style.strokeDashoffset = 0;
-            }else if (nowIndex < index){
+            } else if (nowIndex < index) {
                 path.style.strokeDashoffset = path.getTotalLength();
             }
-        })
-    }
+        }
+    })
 }
 
 const getNowIndex = (pathLengths, nowFillValue) => {
