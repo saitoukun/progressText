@@ -5,18 +5,13 @@ window.addEventListener('DOMContentLoaded', function () {
     let count = 0;
     let defaultText = 'nowLoading'
     const container = document.querySelector('.container');
+    const  pre = document.getElementById('pre');
 
     let button = document.getElementById("button");
     button.addEventListener("click", function (e) {
         e.preventDefault();
         const obtainedText = document.getElementById("textForm").value;
         textArray.push(obtainedText)
-
-        console.log('ok')
-        const resultBox = document.createElement('div');
-        resultBox.setAttribute("id", count)
-        resultBox.innerText = obtainedText;
-        container.appendChild(resultBox);
 
         progressText.changeParameter({
             text: obtainedText,
@@ -25,11 +20,15 @@ window.addEventListener('DOMContentLoaded', function () {
         progressText.animate(1.0);
         console.log(progressText)
 
+        console.log('ok')
+        const resultBox = document.createElement('div');
+        resultBox.setAttribute("id", count)
+        resultBox.innerText = obtainedText;
+        pre.insertBefore(resultBox, pre.firstElementChild);
 
         const preProgressText = new ProgressText(count, progressText);
         preProgressText.progress(1.0);
         count++;
-
 
     });
 
