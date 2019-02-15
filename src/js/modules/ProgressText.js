@@ -32,7 +32,6 @@ export default class ProgressText {
       }
       let easingProgressRate = getEasingValue(this.easingName, now);
       drawSvg(this.pathsArray, easingProgressRate, pre, post, isPlus);
-      document.getElementById('progress').innerText = (easingProgressRate * 100 + "%");
     };
     requestAnimationFrame(anim);
   }
