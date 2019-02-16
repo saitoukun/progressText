@@ -12,6 +12,7 @@ export default class ProgressText {
     this.color = obj.color || "#4D4D4D";
     this.easingName = obj.easingName || "linear";
     this.pathsArray = loadPath(this.element, this.text, this.svgWidth, this.strokeWidth, this.color);
+    this.isAnimEnd = false;
   }
 
   animate(rate) {
@@ -21,6 +22,7 @@ export default class ProgressText {
     const end = post > pre ? post : pre;
     const isPlus = post > pre ? true : false;
     const speed = 0.003;
+    this.isAnimEnd = false;
 
     const anim = () => {
       now += speed;
@@ -29,6 +31,7 @@ export default class ProgressText {
       } else if (now >= end) {
         this.preProgressRate = post;
         now = end;
+        this.isAnimEnd = true;
       }
       let easingProgressRate = getEasingValue(this.easingName, now);
       drawSvg(this.pathsArray, easingProgressRate, pre, post, isPlus);

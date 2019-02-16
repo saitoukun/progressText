@@ -1,35 +1,35 @@
 import ProgressText from './modules/ProgressText';
+import { format } from 'url';
 
 window.addEventListener('DOMContentLoaded', function () {
-    let textArray = [];
     let count = 0;
-    let defaultText = 'nowLoading'
+    let defaultText = 'here'
     const container = document.querySelector('.container');
-    const  pre = document.getElementById('pre');
+    const pre = document.getElementById('pre');
 
     let button = document.getElementById("button");
     button.addEventListener("click", function (e) {
         e.preventDefault();
         const obtainedText = document.getElementById("textForm").value;
-        textArray.push(obtainedText)
 
-        progressText.changeParameter({
-            text: obtainedText,
-        })
-        progressText.preProgressRate = 0 ;
-        progressText.animate(1.0);
-        console.log(progressText)
+        if (obtainedText != '') {
+            progressText.changeParameter({
+                text: obtainedText,
+            })
+            progressText.preProgressRate = 0;
+            progressText.animate(1.0);
+            console.log(progressText)
 
-        console.log('ok')
-        const resultBox = document.createElement('div');
-        resultBox.setAttribute("id", count)
-        resultBox.innerText = obtainedText;
-        pre.insertBefore(resultBox, pre.firstElementChild);
+            const resultBox = document.createElement('div');
+            resultBox.setAttribute("id", count)
+            resultBox.innerText = obtainedText;
+            pre.insertBefore(resultBox, pre.firstElementChild);
+            const preProgressText = new ProgressText(count, progressText);
+            preProgressText.progress(1.0);
+            count++;
 
-        const preProgressText = new ProgressText(count, progressText);
-        preProgressText.progress(1.0);
-        count++;
-
+            document.getElementById("textForm").value = '';
+        }
     });
 
     const id = 'progressText';
@@ -42,13 +42,14 @@ window.addEventListener('DOMContentLoaded', function () {
     });
     progressText.progress(1.0);
 
+
     const updateColor = (event) => {
         progressText.changeParameter({
             color: event.target.value,
         })
     }
 
-    colorWell = document.querySelector("#colorWell");
+    const colorWell = document.getElementById("colorWell");
     colorWell.value = '#4D4D4D';
     colorWell.addEventListener("input", updateColor, false);
 

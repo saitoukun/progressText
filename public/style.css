@@ -11,11 +11,12 @@
 }
 
 #pre{
-  margin-top: 30px;
+  margin-top: 50px;
 }
 
 #progressText{
   font-size: 50px;
+  height: 78.5px;
 }
 path{fill:none; stroke:#000;}
 
