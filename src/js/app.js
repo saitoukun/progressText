@@ -1,11 +1,14 @@
 import ProgressText from './modules/ProgressText';
-import { format } from 'url';
 
 window.addEventListener('DOMContentLoaded', function () {
     let count = 0;
     let defaultText = 'here'
     const container = document.querySelector('.container');
     const pre = document.getElementById('pre');
+
+    const mouseClick = () => {
+        console.log('aa')
+    }
 
     let button = document.getElementById("button");
     button.addEventListener("click", function (e) {
@@ -21,11 +24,13 @@ window.addEventListener('DOMContentLoaded', function () {
             console.log(progressText)
 
             const resultBox = document.createElement('div');
-            resultBox.setAttribute("id", count)
+            resultBox.setAttribute("id", count);
+            resultBox.setAttribute("class", 'progressLog');
+            resultBox.setAttribute("onclick", mouseClick());
             resultBox.innerText = obtainedText;
             pre.insertBefore(resultBox, pre.firstElementChild);
             const preProgressText = new ProgressText(count, progressText);
-            preProgressText.progress(1.0);
+            preProgressText.animate(1.0);
             count++;
 
             document.getElementById("textForm").value = '';
@@ -52,5 +57,5 @@ window.addEventListener('DOMContentLoaded', function () {
     const colorWell = document.getElementById("colorWell");
     colorWell.value = '#4D4D4D';
     colorWell.addEventListener("input", updateColor, false);
-
+   
 })
