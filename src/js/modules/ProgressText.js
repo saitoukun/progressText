@@ -5,7 +5,7 @@ import getEasingValue from './getEasingValue';
 export default class ProgressText {
   constructor(id, obj) {
     this.element = document.getElementById(id);
-    this.preProgressRate = obj.preProgressRate || 0;
+    this.preProgressRate = 0;
     this.text = obj.text || 'text';
     this.strokeWidth = obj.strokeWidth || '10px';
     this.svgWidth = obj.svgWidth || "32px";
@@ -42,7 +42,6 @@ export default class ProgressText {
   }
 
   changeParameter(obj){
-    this.preProgressRate = obj.preProgressRate || this.preProgressRate;
     this.text = obj.text || this.text;
     this.strokeWidth = obj.strokeWidth || this.strokeWidth;
     this.svgWidth = obj.svgWidth || this.svgWidth;
