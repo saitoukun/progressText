@@ -49,6 +49,4 @@ export default class ProgressText {
     this.easingName = obj.easingName || this.easingName;
     this.pathsArray = loadPath(this.element, this.text, this.svgWidth, this.strokeWidth, this.color);
   }
-  
-
 }
