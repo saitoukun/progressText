@@ -1,4 +1,3 @@
-
 window.addEventListener('DOMContentLoaded', function () {
     let count = 0;
     let preProgressText = [];
@@ -61,6 +60,4 @@ window.addEventListener('DOMContentLoaded', function () {
             color: event.target.value,
         })
     }, false);
-
-
 })
