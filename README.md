@@ -1,6 +1,6 @@
 # ProgressText.js
 
-![demo](bonusFont/nowloading.gif)
+![demo](bonusFont/now-loading.gif)
 
 DEMO: https://saitoukun.github.io/progressText/localhost-dev/
 
