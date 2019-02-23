@@ -1,6 +1,6 @@
 # ProgressText.js
 
-![demo](bonusFont/nowloading.gif)
+
 DEMO: https://saitoukun.github.io/progressText/localhost-dev/
 ## Overview
  Stroke animation with alphanumeric characters.
