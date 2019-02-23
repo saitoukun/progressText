@@ -1,11 +1,11 @@
 # ProgressText.js
 
-![demo](bonusFont/nowloading.gif)
+![demo](bonusFont/progressTextDemo.gif)
 DEMO: https://saitoukun.github.io/progressText/localhost-dev/
 ## Overview
  Stroke animation with alphanumeric characters.
  Can be used for loading-animations.
- 
+
 ##Installing
 Including dist/progresText.js or dist/progressbar.min.js from latest tag to your project.
 
