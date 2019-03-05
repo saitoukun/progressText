@@ -7,7 +7,6 @@ export default function loadLocalCharacter(str, size) {
     const setStrokeWidth = "10px";
     const charactorSize = size ? size : "32px";
 
-    //文字列を配列にする
     const array = [...str];
 
     (async () => {
@@ -38,7 +37,6 @@ export default function loadLocalCharacter(str, size) {
                 console.log("error!")
             }
         }));
-        //読み込みが終わったら
         createDom();
     })();
     
@@ -62,7 +60,6 @@ export default function loadLocalCharacter(str, size) {
         paths.splice(index, 0, charPath);
     }
 
-    //非同期で読み込んだsvgを順番になるよう並べ替えもここでしよう
     // fragmentに全てのsvgを格納してからDOMを操作
     const createDom = () => {
         console.log(parsedSVGs)
