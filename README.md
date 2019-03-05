@@ -22,3 +22,4 @@ Including dist/progresText.js or dist/progressbar.min.js from latest tag to your
 
 ## License
 MIT License
+
